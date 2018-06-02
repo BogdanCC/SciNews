@@ -1,3 +1,7 @@
 <resources>
+    <!-- Application name -->
     <string name="app_name">Sci News</string>
+    <!-- Navigation Menu Strings -->
+    <string name="live_news">Live news</string>
+    <string name="featured_news">Featured</string>
 </resources>

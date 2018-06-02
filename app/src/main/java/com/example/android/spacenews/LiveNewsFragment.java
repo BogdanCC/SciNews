@@ -19,12 +19,6 @@ public class LiveNewsFragment extends android.support.v4.app.Fragment implements
     private static final String THEGUARDIAN_REQUEST_URL =
             "http://content.guardianapis.com/search?q=space&tag=science/science&show-fields=trailText&api-key=test";
     private View fragmentLayout;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ConnectivityManager cm;
-    private NetworkInfo activeNetwork;
-    private android.support.v4.app.LoaderManager loaderManager;
     private static final int NEWS_LOADER_ID = 1;
 
     public LiveNewsFragment(){
@@ -34,6 +28,7 @@ public class LiveNewsFragment extends android.support.v4.app.Fragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        android.support.v4.app.LoaderManager loaderManager;
         if(isConnected()) {
             loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
@@ -67,21 +62,22 @@ public class LiveNewsFragment extends android.support.v4.app.Fragment implements
 
     /** Method to return true if connected to the internet and false otherwise */
     private boolean isConnected() {
-        cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        activeNetwork = cm.getActiveNetworkInfo();
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     /** Method tu update the UI in the onLoadFinished method */
     private void updateUi(List<News> news){
-        mRecyclerView = fragmentLayout.findViewById(R.id.news_view);
+        RecyclerView.LayoutManager mLayoutManager;
+        RecyclerView mRecyclerView = fragmentLayout.findViewById(R.id.news_view);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // Set the custom adapter to the RecyclerView
-        mAdapter = new NewsAdapter(news);
+        RecyclerView.Adapter mAdapter = new NewsAdapter(news);
         mRecyclerView.setAdapter(mAdapter);
     }
 }

@@ -5,39 +5,62 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
     // Creating global variable references
-    private FragmentManager fragmentManager;
-    private Fragment fragment;
-    private Class fragmentClass;
     private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDrawerLayout = findViewById(R.id.drawer_layout);
 
+        // Make the app full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // Set the custom toolbar
+        Toolbar toolbar = findViewById(R.id.nav_toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_menu_black);
+
+        // Manage the navigation drawer
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_live_news);
+        // Make the first item in the menu be selected when activity is created
         selectDrawerItem(navigationView.getMenu().getItem(0));
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
                 selectDrawerItem(item);
-
                 return true;
             }
         });
     }
 
+    // Overriding method to open drawer when burger is clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    // Method to update the UI with the appropriate fragments on item click
     private void selectDrawerItem(MenuItem item){
-        fragment = null;
+        Fragment fragment = null;
+        Class fragmentClass;
+        FragmentManager fragmentManager;
         switch (item.getItemId()) {
             case R.id.nav_live_news:
                 fragmentClass = LiveNewsFragment.class;
