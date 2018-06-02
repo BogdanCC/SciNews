@@ -1,11 +1,10 @@
 package com.example.android.spacenews;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 import java.util.List;
 
-public class NewsLoader extends AsyncTaskLoader<List<News>>{
+public class NewsLoader extends android.support.v4.content.AsyncTaskLoader<List<News>> {
 
     private String mUrlLink;
 
