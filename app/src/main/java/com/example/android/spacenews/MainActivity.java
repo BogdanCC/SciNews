@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.WindowManager;
-// Merge branches
+// Clean Project
 public class MainActivity extends AppCompatActivity {
     // Creating global variable references
     private DrawerLayout mDrawerLayout;
