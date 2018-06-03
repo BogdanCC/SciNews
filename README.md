@@ -1,4 +1,4 @@
-# SpaceNews
+# SciNews
 News app stage 1 (in progress)
 
 Screenshots current stage 
