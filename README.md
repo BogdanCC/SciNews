@@ -3,7 +3,7 @@ News app stage 1 (in progress)
 
 Screenshots current stage 
 
-No internet connection drawing made by my girlfriend, copyrights go to her.
+"No internet connection" drawing made by my girlfriend, copyrights go to her.
 
 Check her out at : http://nophieb.deviantart.com/
 
