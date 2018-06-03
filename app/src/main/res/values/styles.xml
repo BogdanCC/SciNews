@@ -6,10 +6,84 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="drawerArrowStyle">@style/DrawerHamburgerStyle</item>
     </style>
     <style name="DrawerHamburgerStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">#FFFFFF</item>
     </style>
+
+    <!-- Article styles -->
+    <style name="ArticleThumbnail">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/article_thumbnail_height</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="ArticleTextContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/spacing_medium</item>
+    </style>
+    <style name="ArticleHeadline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/text_size_headline</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+    </style>
+    <style name="ArticleSecondaryText">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textSize">@dimen/text_size_info</item>
+    </style>
+    <style name="ArticlePublishedInfo" parent="ArticleSecondaryText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small</item>
+    </style>
+    <style name="ArticleDescription">
+         <item name="android:layout_width">match_parent</item>
+         <item name="android:layout_height">wrap_content</item>
+         <item name="android:layout_marginTop">@dimen/spacing_small</item>
+         <item name="android:maxLines">2</item>
+         <item name="android:textSize">@dimen/text_size_desc</item>
+         <item name="android:ellipsize">end</item>
+         <item name="android:textColor">@color/colorSecondaryText</item>
+    </style>
+    <style name="ArticleFooter">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/spacing_medium</item>
+    </style>
+    <style name="ArticleFooterText" parent="ArticleSecondaryText">
+        <item name="android:layout_width">@dimen/null_size</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="ArticleFooterButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/text_size_info</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:text">@string/read_story</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorIcons</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <style name="ArticleDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider_height</item>
+        <item name="android:layout_marginTop">@dimen/spacing_smaller</item>
+        <item name="android:background">@color/colorDivider</item>
+    </style>
+    <!-- End Article Styles -->
 </resources>

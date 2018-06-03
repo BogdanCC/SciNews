@@ -10,10 +10,12 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     private String mUrlLink;
     private List<News> news;
+    private boolean isFromNetwork;
 
-    public NewsLoader(Context context, String link){
+    public NewsLoader(Context context, String link, boolean isFromNetwork){
         super(context);
         mUrlLink = link;
+        this.isFromNetwork = isFromNetwork;
     }
 
     @Override
@@ -27,11 +29,15 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     @Override
     public List<News> loadInBackground() {
-        // Make an http request and return the data in form of a JSON String
-        String jsonResponse = QueryUtils.makeHttpRequest(QueryUtils.createUrl(mUrlLink));
+        String jsonResponse;
+        if(isFromNetwork){
+            // Make an http request and return the data in form of a JSON String
+            jsonResponse = QueryUtils.makeHttpRequest(QueryUtils.createUrl(mUrlLink));
+        } else {
+            jsonResponse = mUrlLink;
+        }
         // Add in the list of {@link News} objects from the JSON response
-        news = QueryUtils.extractNews(jsonResponse);
-
+        news = QueryUtils.extractNews(jsonResponse, isFromNetwork, getContext());
         return news;
     }
 

@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import java.util.List;
@@ -32,14 +33,16 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        FrameLayout emptyView = fragmentLayout.findViewById(R.id.empty_view);
         newsProgerssBar = fragmentLayout.findViewById(R.id.news_progress);
         if(isConnected()) {
+            emptyView.setVisibility(View.GONE);
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         } else {
             // TODO : Choose empty layout if no internet connection
             newsProgerssBar.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -47,14 +50,14 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentLayout = inflater.inflate(R.layout.fragment_live_news, container, false);
-
+        newsProgerssBar = fragmentLayout.findViewById(R.id.news_progress);
         return fragmentLayout;
     }
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
         // Create a new {@link NewsLoader} instance and pass in the context
         // and the string url to be used in the background
-        return new NewsLoader(getActivity(), THEGUARDIAN_REQUEST_URL);
+        return new NewsLoader(getActivity(), THEGUARDIAN_REQUEST_URL, true);
     }
 
     @Override
@@ -79,7 +82,6 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
         RecyclerView.LayoutManager mLayoutManager;
         RecyclerView mRecyclerView = fragmentLayout.findViewById(R.id.news_view);
         mRecyclerView.setHasFixedSize(true);
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 

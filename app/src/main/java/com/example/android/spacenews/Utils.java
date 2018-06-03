@@ -14,7 +14,9 @@ public final class Utils {
         int minutes = readTimeMilliSeconds / (60 * 1000);
         int seconds = (readTimeMilliSeconds / 1000) % 60;
         if(seconds > 30) {
-            minutes += 1;
+            minutes++;
+        } else if(minutes == 0) {
+            minutes++;
         }
         return String.format(Locale.getDefault(),"%d min read", minutes);
     }

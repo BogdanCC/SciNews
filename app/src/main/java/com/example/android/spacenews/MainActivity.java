@@ -62,9 +62,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_live_news:
                 fragmentClass = LiveNewsFragment.class;
                 break;
-                default:
-                    fragmentClass = LiveNewsFragment.class;
-                    break;
+            case R.id.nav_featured_news:
+                fragmentClass = FeaturedNewsFragment.class;
+                break;
+            default:
+                fragmentClass = LiveNewsFragment.class;
+                break;
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
