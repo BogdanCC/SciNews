@@ -1,9 +1,10 @@
 # SpaceNews
 News app stage 1 (in progress)
 
-Screenshota current stage (the "PayPal" logo is used as an example)
+Screenshots current stage (the "PayPal" logo is used as an example)
 
 No internet connection drawing made by my girlfriend, copyrights go to her.
+
 Check her out at : http://nophieb.deviantart.com/
 
 ![Alt text](Screenshots/Screenshot_2018-06-03-17-20-06.png?raw=true "Optional Title") ![Alt text](Screenshots/Screenshot_2018-06-03-17-20-09.png?raw=true "Optional Title")
