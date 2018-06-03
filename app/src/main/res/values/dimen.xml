@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Null size -->
+    <dimen name="null_size">0dp</dimen>
+    <!-- Divider height -->
+    <dimen name="divider_height">1dp</dimen>
+    <!-- Navigation header height -->
     <dimen name="nav_header_height">200dp</dimen>
+    <!-- Article thumbnail height -->
+    <dimen name="article_thumbnail_height">150dp</dimen>
+    <!-- Button corner radius and padding -->
+    <dimen name="button_corner_radius">4dp</dimen>
+    <dimen name="button_padding_top_bottom">8dp</dimen>
+    <dimen name="button_padding_left_right">12dp</dimen>
+    <!-- Text sizes -->
+    <dimen name="text_size_headline">24sp</dimen>
+    <dimen name="text_size_desc">14sp</dimen>
+    <dimen name="text_size_info">12sp</dimen>
+    <!-- Margins and paddings -->
+    <dimen name="spacing_smaller">1dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
 </resources>

@@ -1,10 +1,9 @@
 package com.example.android.spacenews;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -24,14 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Make the app full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         // Set the custom toolbar
         Toolbar toolbar = findViewById(R.id.nav_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_menu_black);
-
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_menu_white);
         // Manage the navigation drawer
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private void selectDrawerItem(MenuItem item){
         Fragment fragment = null;
         Class fragmentClass;
-        FragmentManager fragmentManager;
+        android.app.FragmentManager fragmentManager;
         switch (item.getItemId()) {
             case R.id.nav_live_news:
                 fragmentClass = LiveNewsFragment.class;
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         // Insert the fragment by replacing any existing fragment
-        fragmentManager = getSupportFragmentManager();
+        fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         // Highlight the selected item has been done by NavigationView

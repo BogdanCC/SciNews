@@ -1,5 +1,7 @@
 package com.example.android.spacenews;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -118,6 +120,10 @@ public final class QueryUtils {
         String title;
         String desc;
         String author;
+        int wordCount;
+        String date;
+        String articleUrl;
+        String imageUrl;
         // Try to parse the newsJSON. If there's a problem with the way the JSON
         // is formatted, a JSONException will be thrown
         // Catch the exception so the app doesn't crash, and print the error message to the logs
@@ -132,17 +138,41 @@ public final class QueryUtils {
             for(int i = 0; i < length; i++) {
 
                 JSONObject article = newsArray.getJSONObject(i);
-
-                title = article.getString("webTitle");
-                desc = article.getJSONObject("fields").getString("trailText");
-                author = article.getString("pillarName");
-
-                news.add(new News(title, desc, author));
+                JSONObject fields = article.getJSONObject("fields");
+                JSONArray tags = article.getJSONArray("tags");
+                title = fields.getString("headline");
+                desc = fields.getString("trailText");
+                wordCount = fields.getInt("wordcount");
+                imageUrl = fields.getString("thumbnail");
+                date = article.getString("webPublicationDate");
+                articleUrl = article.getString("webUrl");
+               if(tags.length() != 0 && tags.getJSONObject(0).has("webTitle")){
+                   author = tags.getJSONObject(0).getString("webTitle");
+               } else {
+                   author = "Unknown author";
+               }
+                Bitmap bmp = getUrlArticleImage(imageUrl);
+                news.add(new News(author, title, desc, wordCount, date, articleUrl, bmp));
             }
         } catch (JSONException e) {
             Log.e("Query Utils", "Problem parsing the JSON response");
             e.printStackTrace();
         }
         return news;
+    }
+    private static Bitmap getUrlArticleImage(String imageUrl){
+        URL url = null;
+        Bitmap bmp = null;
+        try{
+            url = new URL(imageUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+             bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmp;
     }
 }

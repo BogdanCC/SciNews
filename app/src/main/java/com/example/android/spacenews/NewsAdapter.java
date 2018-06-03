@@ -1,10 +1,13 @@
 package com.example.android.spacenews;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -43,13 +46,45 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     /** Replace the contents of a view (invoked by the layout manager) */
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         // Get the root view and the current article
-        View rootView = holder.newsListItem;
+        final View rootView = holder.newsListItem;
         News currentArticle = newsList.get(position);
+        final String articleLink = currentArticle.getArticleUrl();
+        String date = Utils.removeSubStringAt(currentArticle.getDate(), "T");
+        String author = currentArticle.getAuthor();
+        String publishedOn;
+
+        if(author.equals("Unknown author")){
+            publishedOn = rootView.getResources().getString(R.string.published) + " " + date;
+        } else {
+            publishedOn = rootView.getResources().getString(R.string.published) + " " + date
+                    + " " + rootView.getResources().getString(R.string.published_by)
+                    + " " + currentArticle.getAuthor();
+        }
 
         TextView articleTitle = rootView.findViewById(R.id.article_title);
+        TextView articleDesc = rootView.findViewById(R.id.article_desc);
+        TextView articleReadTime = rootView.findViewById(R.id.article_read_time);
+        TextView articleDate = rootView.findViewById(R.id.article_date);
+        TextView articleReadButton = rootView.findViewById(R.id.article_open_link);
+        ImageView articleThumbnail = rootView.findViewById(R.id.article_thumbnail);
+
         articleTitle.setText(currentArticle.getTitle());
+        articleDesc.setText(currentArticle.getDescription());
+        articleReadTime.setText(Utils.calculateReadTime(currentArticle.getWordCount()));
+        articleDate.setText(publishedOn);
+        articleThumbnail.setImageBitmap(currentArticle.getImageBitmap());
+
+        final Intent i = new Intent(Intent.ACTION_VIEW);
+        articleReadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                i.setData(Uri.parse(articleLink));
+                rootView.getContext().startActivity(i);
+            }
+        });
+
     }
 
     /** Return the size of your dataset (invoked by the layout manager) */

@@ -4,4 +4,8 @@
     <!-- Navigation Menu Strings -->
     <string name="live_news">Live news</string>
     <string name="featured_news">Featured</string>
+    <!-- News list strings -->
+    <string name="published">Published on</string>
+    <string name="published_by">by</string>
+    <string name="read_story">Read story</string>
 </resources>
