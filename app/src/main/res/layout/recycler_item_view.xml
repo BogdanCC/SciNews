@@ -7,7 +7,7 @@
     android:orientation="vertical">
     <!-- Article Thumbnail -->
     <ImageView style="@style/ArticleThumbnail"
-        tools:src="@drawable/test_logo"
+        tools:src="@drawable/thumb_1"
         android:id="@+id/article_thumbnail" />
     <!-- Article Text Container -->
     <LinearLayout

@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:src="@drawable/test_logo"
+            android:src="@drawable/sci_news_logo"
             />
     </FrameLayout>
 </LinearLayout>
