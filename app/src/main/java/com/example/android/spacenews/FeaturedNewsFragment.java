@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class FeaturedNewsFragment extends Fragment implements LoaderManager.Load
 
         fragmentLayout = inflater.inflate(R.layout.fragment_live_news, container, false);
         newsProgerssBar = fragmentLayout.findViewById(R.id.news_progress);
-        LinearLayout searchField = fragmentLayout.findViewById(R.id.search_field);
+        RelativeLayout searchField = fragmentLayout.findViewById(R.id.search_field);
         searchField.setVisibility(View.GONE);
         return fragmentLayout;
     }

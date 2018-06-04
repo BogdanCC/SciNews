@@ -12,4 +12,5 @@
     <string name="no_internet">No internet connection</string>
     <string name="no_data">No data found</string>
     <string name="make_search">You can search for articles!</string>
+    <string name="edit_text_placeholder">Search for articles</string>
 </resources>
