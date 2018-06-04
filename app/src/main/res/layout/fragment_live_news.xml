@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,26 +17,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/no_connection"
-                />
+                android:id="@+id/not_found_image" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_internet"
                 android:textSize="@dimen/text_size_headline"
-                />
+                android:id="@+id/not_found_text"/>
         </LinearLayout>
     </FrameLayout>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:indeterminate="true"
         android:id="@+id/news_progress"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/news_view"
-        android:scrollbars="vertical"
+        android:layout_centerInParent="true" />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/search_field">
+            <EditText
+                android:layout_width="@dimen/null_size"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                tools:text="Search here"
+                android:padding="@dimen/spacing_medium"
+                android:id="@+id/search_box"
+                android:maxLines="1"/>
+            <ImageView
+                android:layout_width="@dimen/null_size"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_search_black"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:id="@+id/search_button" />
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/news_view"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </RelativeLayout>

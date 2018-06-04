@@ -14,35 +14,80 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
 public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>>{
 
-    private static final String THEGUARDIAN_REQUEST_URL =
-            "http://content.guardianapis.com/search?tag=science/space&show-fields=trailText%2Cheadline%2Cthumbnail%2Cwordcount&show-tags=contributor&api-key=test";
+    private String THEGUARDIAN_REQUEST_URL =
+            "http://content.guardianapis.com/search?section=science&show-fields=trailText%2Cheadline%2Cthumbnail%2Cwordcount&show-tags=contributor&api-key=test";
     private View fragmentLayout;
-    private static final int NEWS_LOADER_ID = 1;
+    private int news_loader_id = 1;
     ProgressBar newsProgerssBar;
+    EditText searchBox;
+    ImageView searchButton;
+    private RecyclerView mRecyclerView;
+    private ImageView notFoundImage;
+    private TextView notFoundText;
+    private FrameLayout emptyView;
+    RecyclerView.Adapter mAdapter;
+
     public LiveNewsFragment(){
         // required public constructor
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
-        FrameLayout emptyView = fragmentLayout.findViewById(R.id.empty_view);
+        // Setting UI on activity created
+        emptyView = fragmentLayout.findViewById(R.id.empty_view);
+        notFoundImage = fragmentLayout.findViewById(R.id.not_found_image);
+        notFoundText = fragmentLayout.findViewById(R.id.not_found_text);
         newsProgerssBar = fragmentLayout.findViewById(R.id.news_progress);
+        searchBox = fragmentLayout.findViewById(R.id.search_box);
+        searchButton = fragmentLayout.findViewById(R.id.search_button);
+        mRecyclerView = fragmentLayout.findViewById(R.id.news_view);
+        LinearLayout searchField = fragmentLayout.findViewById(R.id.search_field);
+        emptyView.setVisibility(View.VISIBLE);
+        notFoundImage.setImageResource(R.drawable.no_umbrella_found);
+        notFoundText.setText(getResources().getString(R.string.make_search));
+        newsProgerssBar.setVisibility(View.GONE);
         if(isConnected()) {
-            emptyView.setVisibility(View.GONE);
-            LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+            if(searchField.getVisibility() == View.GONE) {
+                searchField.setVisibility(View.VISIBLE);
+            }
+            // Initiate the loader when search button is pressed
+            searchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mRecyclerView.setVisibility(View.GONE);
+                    // Create query string to concatenate the url string from the EditText
+                    // Replace white spaces with %20AND%20
+                    String query = searchBox.getText().toString().replace(" ", "%20AND%20");
+                    THEGUARDIAN_REQUEST_URL = "http://content.guardianapis.com/search?q=" + query + "&section=science&show-fields=trailText%2Cheadline%2Cthumbnail%2Cwordcount&show-tags=contributor&api-key=test";
+                    news_loader_id++;
+                    LoaderManager loaderManager = getLoaderManager();
+                    loaderManager.initLoader(news_loader_id, null, LiveNewsFragment.this);
+                    emptyView.setVisibility(View.GONE);
+                    newsProgerssBar.setVisibility(View.VISIBLE);
+                }
+            });
+
+
         } else {
             // TODO : Choose empty layout if no internet connection
             newsProgerssBar.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
+            notFoundImage.setImageResource(R.drawable.no_connection);
+            notFoundText.setText(getResources().getString(R.string.no_internet));
+            searchField.setVisibility(View.GONE);
         }
     }
 
@@ -62,8 +107,12 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
-        updateUi(news);
+        updateUi(news, loader);
         newsProgerssBar.setVisibility(View.GONE);
+        if(news.size() == 0 || loader.isAbandoned()) {
+            emptyView.setVisibility(View.VISIBLE);
+            newsProgerssBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -78,15 +127,22 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     /** Method tu update the UI in the onLoadFinished method */
-    private void updateUi(List<News> news){
+    private void updateUi(List<News> news, Loader<List<News>> loader){
         RecyclerView.LayoutManager mLayoutManager;
-        RecyclerView mRecyclerView = fragmentLayout.findViewById(R.id.news_view);
+        mRecyclerView = fragmentLayout.findViewById(R.id.news_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // Set the custom adapter to the RecyclerView
-        RecyclerView.Adapter mAdapter = new NewsAdapter(news);
+        mAdapter = new NewsAdapter(news);
         mRecyclerView.setAdapter(mAdapter);
+        if(mRecyclerView.getVisibility() == View.GONE) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+        if(news.size() == 0 || loader.isAbandoned()){
+            notFoundImage.setImageResource(R.drawable.no_umbrella_found);
+            notFoundText.setText(getResources().getString(R.string.no_data));
+        }
     }
 }
