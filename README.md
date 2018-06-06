@@ -1,5 +1,5 @@
 # SciNews
-News app stage 1 (in progress)
+News app stage 2
 
 Screenshots current stage 
 
@@ -7,8 +7,8 @@ Screenshots current stage
 
 Check her out at : http://nophieb.deviantart.com/
 
-![Alt text](Screenshots/Screenshot_2018-06-04-00-42-17.png?raw=true "Optional Title") ![Alt text](Screenshots/Screenshot_2018-06-05-00-03-10.png?raw=true "Optional Title")
-![Alt text](Screenshots/Screenshot_2018-06-03-21-34-51.png?raw=true "Optional Title") ![Alt text](Screenshots/Screenshot_2018-06-03-21-37-01.png?raw=true "Optional Title")
-![Alt text](Screenshots/Screenshot_2018-06-05-00-03-22.png?raw=true "Optional Title")
+![Alt text](Screenshots/Screenshot_2018-06-06-13-13-35.png?raw=true "Optional Title") ![Alt text](Screenshots/Screenshot_2018-06-06-13-12-38.png?raw=true "Optional Title")
+![Alt text](Screenshots/Screenshot_2018-06-06-13-28-30.png?raw=true "Optional Title") ![Alt text](Screenshots/Screenshot_2018-06-06-13-12-54.png?raw=true "Optional Title")
+![Alt text](Screenshots/Screenshot_2018-06-06-13-17-19.png?raw=true "Optional Title") ![Alt text](Screenshots/Screenshot_2018-06-06-13-13-42.png?raw=true "Optional Title")
 
 
