@@ -1,6 +1,7 @@
 package com.example.android.spacenews;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_featured_news:
                 fragmentClass = FeaturedNewsFragment.class;
                 break;
+            case R.id.nav_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
             default:
                 fragmentClass = LiveNewsFragment.class;
                 break;

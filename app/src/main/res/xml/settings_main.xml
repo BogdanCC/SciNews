@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_news_title">
+    <EditTextPreference android:defaultValue="@string/settings_min_article_shown_default_value"
+        android:inputType="numberDecimal"
+        android:key="@string/settings_min_article_shown_key"
+        android:selectAllOnFocus="true"
+        android:title="@string/settings_min_article_shown_label"
+        android:id="@+id/number_of_articles"
+        />
+    <ListPreference android:defaultValue="@string/settings_order_by_default_value"
+        android:entries="@array/settings_order_by_labels"
+        android:entryValues="@array/settings_order_by_values"
+        android:key="@string/settings_order_by_key"
+        android:title="@string/settings_order_by_label"/>
+    <PreferenceCategory android:title="@string/settings_sections_label">
+        <CheckBoxPreference android:title="@string/settings_sections_science_label"
+            android:key="@string/settings_sections_science_key"
+            android:defaultValue="true"/>
+        <CheckBoxPreference android:title="@string/settings_sections_technology_label"
+            android:key="@string/settings_sections_technology_key"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:title="@string/settings_sections_art_label"
+            android:key="@string/settings_sections_art_key"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:title="@string/settings_sections_books_label"
+            android:key="@string/settings_sections_books_key"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:title="@string/settings_sections_culture_label"
+            android:key="@string/settings_sections_culture_key"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:title="@string/settings_sections_education_label"
+            android:key="@string/settings_sections_education_key"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:title="@string/settings_sections_environment_label"
+            android:key="@string/settings_sections_environment_key"
+            android:defaultValue="false"/>
+        <CheckBoxPreference android:title="@string/settings_sections_sports_label"
+            android:key="@string/settings_sections_sports_key"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

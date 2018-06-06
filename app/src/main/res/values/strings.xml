@@ -4,6 +4,8 @@
     <!-- Navigation Menu Strings -->
     <string name="live_news">Live news</string>
     <string name="featured_news">Featured</string>
+    <string name="settings_news">Settings</string>
+    <string name="settings_news_title">News Settings</string>
     <!-- News list strings -->
     <string name="published">Published on</string>
     <string name="published_by">by</string>
@@ -13,4 +15,37 @@
     <string name="no_data">No data found</string>
     <string name="make_search">You can search for articles!</string>
     <string name="edit_text_placeholder">Search for articles</string>
+
+    <!-- Settings strings -->
+    <string name="settings_min_article_shown_label">Articles shown (max 40)</string>
+    <string name="settings_min_article_shown_key" translatable="false">page-size</string>
+    <string name="settings_min_article_shown_default_value" translatable="false">10</string>
+    <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default_value" translatable="false">@string/settings_order_by_relevance_value</string>
+    <!-- Label for order-by magnitude option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_relevance_label">Most relevant</string>
+    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
+    <!-- Label for order-by most recent option [CHAR LIMIT=20] -->
+    <string name="settings_order_by_newest_label">Newest</string>
+    <string name="settings_order_by_newest_value" translatable="false">newest</string>
+    <string name="settings_sections_label">Sections</string>
+    <!-- Checkboxes strings and keys -->
+    <string name="settings_sections_science_label">Science</string>
+    <string name="settings_sections_science_key">science</string>
+    <string name="settings_sections_technology_label">Technology</string>
+    <string name="settings_sections_technology_key">technology</string>
+    <string name="settings_sections_art_label">Art and Design</string>
+    <string name="settings_sections_art_key">art_and_design</string>
+    <string name="settings_sections_books_label">Books</string>
+    <string name="settings_sections_books_key">books</string>
+    <string name="settings_sections_culture_label">Culture</string>
+    <string name="settings_sections_culture_key">Culture</string>
+    <string name="settings_sections_education_label">Education</string>
+    <string name="settings_sections_education_key">education</string>
+    <string name="settings_sections_environment_label">Environment</string>
+    <string name="settings_sections_environment_key">environment</string>
+    <string name="settings_sections_sports_label">Sports</string>
+    <string name="settings_sections_sports_key">sports</string>
 </resources>

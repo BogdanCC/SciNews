@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class QueryUtils {
-
+    private static final String LOG_TAG = QueryUtils.class.getSimpleName();
     /** Creating a private constructor before noone should create an instance
      * of the {@link QueryUtils} class since all the methods will be static */
     private QueryUtils(){}
@@ -42,10 +42,18 @@ public final class QueryUtils {
             // Same as above, give a max of 15 seconds for the connection to be established
             urlConnection.setConnectTimeout(15000);
             urlConnection.connect();
-            // Get the input stream returned from the server
-            inputStream = urlConnection.getInputStream();
-            // Convert the input stream into a String
-            jsonResponse = convertStreamToString(inputStream);
+            int responseCode = urlConnection.getResponseCode();
+            // If the request was successful (response code 200),
+            // then read the input stream and parse the response.
+            if(responseCode == 200) {
+                // Get the input stream returned from the server
+                inputStream = urlConnection.getInputStream();
+                // Convert the input stream into a String
+                jsonResponse = convertStreamToString(inputStream);
+            } else {
+                Log.e(LOG_TAG, "Error connecting. Response code : " + responseCode);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -119,7 +127,6 @@ public final class QueryUtils {
         List<News> news = new ArrayList<>();
         List<FeaturedArticleThumbnails> thumbnails = new ArrayList<>();
         if(!isFromNetwork){
-            Log.i("QueryUtils", "DEBUG : Image resource id = " + R.drawable.thumb_1);
             thumbnails.add(new FeaturedArticleThumbnails(R.drawable.thumb_1));
             thumbnails.add(new FeaturedArticleThumbnails(R.drawable.thumb2));
             thumbnails.add(new FeaturedArticleThumbnails(R.drawable.thumb3));
@@ -149,10 +156,8 @@ public final class QueryUtils {
             JSONObject root = new JSONObject(newsJSON);
             JSONObject response = root.getJSONObject("response");
             JSONArray newsArray = response.getJSONArray("results");
-
             int length = newsArray.length();
             for(int i = 0; i < length; i++) {
-
                 JSONObject article = newsArray.getJSONObject(i);
                 JSONObject fields = article.getJSONObject("fields");
                 JSONArray tags = article.getJSONArray("tags");
@@ -165,7 +170,6 @@ public final class QueryUtils {
                     imageUrl = fields.getString("thumbnail");
                     bmp = getUrlArticleImage(imageUrl);
                 } else {
-                    Log.i("QueryUtils", "DEBUG : BitmapFactory decoding. getImageResourceId() : " + thumbnails.get(1).getImageResourceId());
                     bmp = BitmapFactory.decodeResource(context.getResources(), thumbnails.get(i).getImageResourceId());
                 }
                if(tags.length() != 0 && tags.getJSONObject(0).has("webTitle")){
@@ -173,18 +177,20 @@ public final class QueryUtils {
                } else {
                    author = "Unknown author";
                }
-
-               desc = android.text.Html.fromHtml(desc).toString();
-
-                Log.i("QueryUtils", "DEBUG : bmp is now " + bmp);
+                desc = android.text.Html.fromHtml(desc).toString();
                 news.add(new News(author, title, desc, wordCount, date, articleUrl, bmp));
             }
         } catch (JSONException e) {
-            Log.e("Query Utils", "Problem parsing the JSON response");
+            Log.e(LOG_TAG, "Problem parsing the JSON response");
             e.printStackTrace();
         }
         return news;
     }
+
+    /** Method to download image from url
+     * @param   imageUrl  The image download link
+     * @return  The downloaded image bitmap
+     * */
     private static Bitmap getUrlArticleImage(String imageUrl){
         URL url = null;
         Bitmap bmp = null;

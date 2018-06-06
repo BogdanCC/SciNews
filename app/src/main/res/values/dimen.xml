@@ -21,5 +21,5 @@
     <dimen name="spacing_small">8dp</dimen>
     <dimen name="spacing_medium">16dp</dimen>
     <!-- Edit text container height -->
-    <dimen name="search_container_height">100dp</dimen>
+    <dimen name="search_container_height">60dp</dimen>
 </resources>
