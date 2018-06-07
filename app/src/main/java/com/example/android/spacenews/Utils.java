@@ -3,6 +3,9 @@ package com.example.android.spacenews;
 import java.util.Locale;
 
 public final class Utils {
+    private final static int WORDS_PER_SECOND = 2;
+    private final static int SECONDS_PER_MINUTE = 60;
+    private final static int HALF_A_MINUTE = 30;
     private Utils() {
     }
     /** Method to remove a part of a string from a certain point
@@ -19,10 +22,10 @@ public final class Utils {
      * @param wordCount - the number of words
      * @return          a formatted String that shows the read time in minutes */
     public static String calculateReadTime(int wordCount){
-        int readTimeMilliSeconds = (wordCount/2) * 1000;
-        int minutes = readTimeMilliSeconds / (60 * 1000);
-        int seconds = (readTimeMilliSeconds / 1000) % 60;
-        if(seconds > 30) {
+        int readTimeSeconds = wordCount / WORDS_PER_SECOND;
+        int minutes = readTimeSeconds / SECONDS_PER_MINUTE;
+        int seconds = readTimeSeconds % SECONDS_PER_MINUTE; // returns the remainder of number of seconds / 60
+        if(seconds > HALF_A_MINUTE) {
             minutes++;
         } else if(minutes == 0) {
             minutes++;

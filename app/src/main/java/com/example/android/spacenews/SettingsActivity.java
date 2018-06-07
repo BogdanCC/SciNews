@@ -15,6 +15,7 @@ import android.view.WindowManager;
 public class SettingsActivity extends AppCompatActivity {
     private static EditTextPreference editTextPreference;
     private final static String LOG_TAG = SettingsActivity.class.getSimpleName();
+    private final static int MAX_ARTICLES = 40;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +39,9 @@ public class SettingsActivity extends AppCompatActivity {
             // If it was, change it to 40 (max value)
             if(preference == editTextPreference){
                 Log.i(LOG_TAG, "It was editTextPreference. Value is " + newValue.toString());
-                if(Integer.valueOf(newValue.toString()) > 40){
+                if(Integer.valueOf(newValue.toString()) > MAX_ARTICLES){
                     Log.i(LOG_TAG, "It was greater than 40");
-                    newValue = "40";
+                    newValue = String.valueOf(MAX_ARTICLES);
                     Log.i(LOG_TAG, "Value now is" + newValue.toString());
                 }
             }

@@ -21,6 +21,9 @@ import java.util.List;
 
 public final class QueryUtils {
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
+    private static final int CONNECTION_READ_TIMEOUT = 10000;
+    private static final int CONNECTION_CONNECT_TIMEOUT = 15000;
+    private static final int RESPONSE_CODE_OK = 200;
     /** Creating a private constructor before noone should create an instance
      * of the {@link QueryUtils} class since all the methods will be static */
     private QueryUtils(){}
@@ -38,14 +41,14 @@ public final class QueryUtils {
             urlConnection.setRequestMethod("GET");
             // Give 10 seconds time for tha data to be available for read
             // If the timeout expires we will jump to the catch and finally block
-            urlConnection.setReadTimeout(10000);
+            urlConnection.setReadTimeout(CONNECTION_READ_TIMEOUT);
             // Same as above, give a max of 15 seconds for the connection to be established
-            urlConnection.setConnectTimeout(15000);
+            urlConnection.setConnectTimeout(CONNECTION_CONNECT_TIMEOUT);
             urlConnection.connect();
             int responseCode = urlConnection.getResponseCode();
             // If the request was successful (response code 200),
             // then read the input stream and parse the response.
-            if(responseCode == 200) {
+            if(responseCode == RESPONSE_CODE_OK) {
                 // Get the input stream returned from the server
                 inputStream = urlConnection.getInputStream();
                 // Convert the input stream into a String

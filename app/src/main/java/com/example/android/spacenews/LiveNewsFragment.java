@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,11 @@ import android.widget.TextView;
 import java.util.List;
 
 public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>>{
-
+    private static final String LOG_TAG = LiveNewsFragment.class.getSimpleName();
     private static final String THEGUARDIAN_REQUEST_URL = "http://content.guardianapis.com/search?";
     private View fragmentLayout;
     private int news_loader_id = 1;
-    private ProgressBar newsProgerssBar;
+    private ProgressBar newsProgressBar;
     private EditText searchBox;
     private ImageView searchButton;
     private RecyclerView mRecyclerView;
@@ -40,6 +41,7 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
     private FrameLayout emptyView;
     private RecyclerView.Adapter mAdapter;
     private RelativeLayout searchField;
+    private List<News> newsData;
     public LiveNewsFragment(){
         // required public constructor
     }
@@ -76,12 +78,11 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentLayout = inflater.inflate(R.layout.fragment_live_news, container, false);
-        newsProgerssBar = fragmentLayout.findViewById(R.id.news_progress);
+        newsProgressBar = fragmentLayout.findViewById(R.id.news_progress);
         return fragmentLayout;
     }
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         // Create query string to concatenate the url string from the EditText
@@ -100,52 +101,25 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
         boolean includesScience = sharedPreferences.getBoolean(
                 getString(R.string.settings_sections_science_key), true);
         boolean includesTechnology = sharedPreferences.getBoolean(
-                getString(R.string.settings_sections_technology_key), true);
+                getString(R.string.settings_sections_technology_key), false);
         boolean includesArt = sharedPreferences.getBoolean(
-                getString(R.string.settings_sections_art_key), true);
+                getString(R.string.settings_sections_art_key), false);
         boolean includesBooks = sharedPreferences.getBoolean(
-                getString(R.string.settings_sections_books_key), true);
+                getString(R.string.settings_sections_books_key), false);
         boolean includesCulture = sharedPreferences.getBoolean(
-                getString(R.string.settings_sections_culture_key), true);
+                getString(R.string.settings_sections_culture_key), false);
         boolean includesEducation = sharedPreferences.getBoolean(
-                getString(R.string.settings_sections_education_key), true);
+                getString(R.string.settings_sections_education_key), false);
         boolean includesEnvironment = sharedPreferences.getBoolean(
-                getString(R.string.settings_sections_environment_key), true);
+                getString(R.string.settings_sections_environment_key), false);
         boolean includesSports = sharedPreferences.getBoolean(
-                getString(R.string.settings_sections_sports_key), true);
-        String sections = "";
-        if(includesScience){
-            sections += "science|";
-        }
-        if(includesTechnology){
-            sections += "technology|";
-        }
-        if(includesArt){
-            sections += "art|";
-        }
-        if(includesBooks){
-            sections += "books|";
-        }
-        if(includesCulture){
-            sections += "culture|";
-        }
-        if(includesEducation){
-            sections += "education|";
-        }
-        if(includesEnvironment){
-            sections += "environment|";
-        }
-        if(includesSports){
-            sections += "sport|";
-        }
-        if(sections.endsWith("|")){
-            sections = sections.substring(0, sections.length()-1);
-        }
+                getString(R.string.settings_sections_sports_key), false);
+        String sections = formSectionsQuery(includesScience, includesTechnology, includesArt, includesBooks,
+                includesCulture, includesEducation, includesEnvironment, includesSports);
         // parse breaks apart the URI string that's passed into its parameter
         Uri baseUri = Uri.parse(THEGUARDIAN_REQUEST_URL);
         // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
         Uri.Builder uriBuilder = baseUri.buildUpon();
-
         // Append query parameters and its value
         uriBuilder.appendQueryParameter("q", query);
         uriBuilder.appendQueryParameter("section", sections);
@@ -161,8 +135,9 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
+        newsData = news;
         updateUi(news, loader);
-        newsProgerssBar.setVisibility(View.GONE);
+        newsProgressBar.setVisibility(View.GONE);
         if(news.size() == 0 || loader.isAbandoned()) {
             showErrorScreen(true);
         }
@@ -170,6 +145,11 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
+        int size = newsData.size();
+        Log.i(LOG_TAG, "TEST : Data size : " + size + " Adapter : " + mAdapter.getItemCount());
+        newsData.clear();
+        mAdapter.notifyItemRangeRemoved(0, size);
+        Log.i(LOG_TAG, "TEST : Data size after clear : " + newsData.size() + " Adapter : " + mAdapter.getItemCount());
     }
 
     /** Method to return true if connected to the internet and false otherwise */
@@ -202,17 +182,17 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
     private void showLoadingScreen(){
         mRecyclerView.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
-        newsProgerssBar.setVisibility(View.VISIBLE);
+        newsProgressBar.setVisibility(View.VISIBLE);
     }
     // Method to show error screen if connected or not to the internet
     private void showErrorScreen(boolean isConnected){
         if(isConnected){
             mRecyclerView.setVisibility(View.GONE);
-            newsProgerssBar.setVisibility(View.GONE);
+            newsProgressBar.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         }
         else{
-            newsProgerssBar.setVisibility(View.GONE);
+            newsProgressBar.setVisibility(View.GONE);
             searchField.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
             notFoundImage.setImageResource(R.drawable.no_connection);
@@ -224,7 +204,7 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
         emptyView = fragmentLayout.findViewById(R.id.empty_view);
         notFoundImage = fragmentLayout.findViewById(R.id.not_found_image);
         notFoundText = fragmentLayout.findViewById(R.id.not_found_text);
-        newsProgerssBar = fragmentLayout.findViewById(R.id.news_progress);
+        newsProgressBar = fragmentLayout.findViewById(R.id.news_progress);
         searchBox = fragmentLayout.findViewById(R.id.search_box);
         searchButton = fragmentLayout.findViewById(R.id.search_button);
         mRecyclerView = fragmentLayout.findViewById(R.id.news_view);
@@ -232,6 +212,38 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
         emptyView.setVisibility(View.VISIBLE);
         notFoundImage.setImageResource(R.drawable.you_can_search);
         notFoundText.setText(getResources().getString(R.string.make_search));
-        newsProgerssBar.setVisibility(View.GONE);
+        newsProgressBar.setVisibility(View.GONE);
+    }
+    private String formSectionsQuery(boolean includesScience, boolean includesTechnology, boolean includesArt, boolean includesBooks,
+                                     boolean includesCulture, boolean includesEducation, boolean includesEnvironment, boolean includesSports) {
+        String sections = "";
+        if(includesScience){
+            sections += "science|";
+        }
+        if(includesTechnology){
+            sections += "technology|";
+        }
+        if(includesArt){
+            sections += "art|";
+        }
+        if(includesBooks){
+            sections += "books|";
+        }
+        if(includesCulture){
+            sections += "culture|";
+        }
+        if(includesEducation){
+            sections += "education|";
+        }
+        if(includesEnvironment){
+            sections += "environment|";
+        }
+        if(includesSports){
+            sections += "sport|";
+        }
+        if(sections.endsWith("|")){
+            sections = sections.substring(0, sections.length()-1);
+        }
+        return sections;
     }
 }

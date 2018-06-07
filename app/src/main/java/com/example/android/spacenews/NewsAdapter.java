@@ -39,22 +39,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recycler_item_view, parent, false);
+                .inflate(R.layout.recycler_item_view, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
-
     /** Replace the contents of a view (invoked by the layout manager) */
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         // Get the root view and the current article
         final View rootView = holder.newsListItem;
         News currentArticle = newsList.get(position);
-        final String articleLink = currentArticle.getArticleUrl();
         String date = Utils.removeSubStringAt(currentArticle.getDate(), "T");
         String author = currentArticle.getAuthor();
         String publishedOn;
-
+        // If the author is unknown, just show the Published date
         if(author.equals("Unknown author")){
             publishedOn = rootView.getResources().getString(R.string.published) + " " + date;
         } else {
@@ -62,21 +60,22 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     + " " + rootView.getResources().getString(R.string.published_by)
                     + " " + currentArticle.getAuthor();
         }
-
+        // Get the views that we want to populate
         TextView articleTitle = rootView.findViewById(R.id.article_title);
         TextView articleDesc = rootView.findViewById(R.id.article_desc);
         TextView articleReadTime = rootView.findViewById(R.id.article_read_time);
         TextView articleDate = rootView.findViewById(R.id.article_date);
         TextView articleReadButton = rootView.findViewById(R.id.article_open_link);
         ImageView articleThumbnail = rootView.findViewById(R.id.article_thumbnail);
-
+        // Set the data on those views
         articleTitle.setText(currentArticle.getTitle());
         articleDesc.setText(currentArticle.getDescription());
         articleReadTime.setText(Utils.calculateReadTime(currentArticle.getWordCount()));
         articleDate.setText(publishedOn);
         articleThumbnail.setImageBitmap(currentArticle.getImageBitmap());
-
+        // Set a click listener on the read button
         final Intent i = new Intent(Intent.ACTION_VIEW);
+        final String articleLink = currentArticle.getArticleUrl();
         articleReadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,9 +83,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 rootView.getContext().startActivity(i);
             }
         });
-
     }
-
     /** Return the size of your dataset (invoked by the layout manager) */
     @Override
     public int getItemCount() {
