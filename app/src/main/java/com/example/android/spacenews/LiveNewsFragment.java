@@ -85,8 +85,7 @@ public class LiveNewsFragment extends Fragment implements LoaderManager.LoaderCa
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        // Create query string to concatenate the url string from the EditText
-        // Replace white spaces with %20AND%20
+        // Create query string to concatenate the url string from the EditText    
         String query = searchBox.getText().toString();
 
         // getString retrieves a String value from the preferences. The second parameter is the default value for this preference.
